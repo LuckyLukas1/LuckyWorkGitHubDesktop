@@ -23,6 +23,7 @@ import {
 import { countryList } from "@/app/utils/countriesList";
 import { Textarea } from "@/components/ui/textarea";
 import { UploadDropzone } from "@/components/general/UploadThingReexported";
+import { createCompany } from "@/app/actions";
 
 export function CompanyForm() {
   const form = useForm<z.infer<typeof companySchema>>({
@@ -36,6 +37,17 @@ export function CompanyForm() {
       xAccount: "",
     },
   });
+
+  async function onSubmit(data: z.infer<typeof companySchema>) {
+    //is save use typesafe
+    try {
+      await createCompany(data);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.log("Something went wrong" + error);
+      }
+    }
+  }
 
   return (
     <Form {...form}>
