@@ -24,6 +24,8 @@ import { countryList } from "@/app/utils/countriesList";
 import { Textarea } from "@/components/ui/textarea";
 import { UploadDropzone } from "@/components/general/UploadThingReexported";
 import { createCompany } from "@/app/actions";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function CompanyForm() {
   const form = useForm<z.infer<typeof companySchema>>({
@@ -38,20 +40,25 @@ export function CompanyForm() {
     },
   });
 
+  const [pending, setPending] = useState(false);
+
   async function onSubmit(data: z.infer<typeof companySchema>) {
     //is save use typesafe
     try {
+      setPending(true);
       await createCompany(data);
     } catch (error) {
       if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
         console.log("Something went wrong" + error);
       }
+    } finally {
+      setPending(false);
     }
   }
 
   return (
     <Form {...form}>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
@@ -170,6 +177,9 @@ export function CompanyForm() {
             </FormItem>
           )}
         />
+        <Button type="submit" className="w-full" disabled={pending}>
+          {pending ? "submitting..." : "Continue"}
+        </Button>
       </form>
     </Form>
   );
