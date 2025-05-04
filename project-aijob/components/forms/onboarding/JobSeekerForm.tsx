@@ -1,3 +1,4 @@
+import { createJobSeeker } from "@/app/actions";
 import { jobSeekerSchema } from "@/app/utils/zodSchemas";
 import { UploadDropzone } from "@/components/general/UploadThingReexported";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { XIcon } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,9 +28,26 @@ export function JobSeekerForm() {
       resume: "",
     },
   });
+
+  const [pending, setPending] = useState(false);
+
+  async function onSubmit(data: z.infer<typeof jobSeekerSchema>) {
+    //is save use typesafe
+    try {
+      setPending(true);
+      await createJobSeeker(data);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.log("Something went wrong" + error);
+      }
+    } finally {
+      setPending(false);
+    }
+  }
+
   return (
     <Form {...form}>
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="name"
@@ -84,7 +103,7 @@ export function JobSeekerForm() {
                     </div>
                   ) : (
                     <UploadDropzone
-                      endpoint="imageUploader"
+                      endpoint="resumeUploader"
                       onClientUploadComplete={(res) => {
                         field.onChange(res[0].ufsUrl);
                       }}
@@ -100,6 +119,10 @@ export function JobSeekerForm() {
             </FormItem>
           )}
         />
+
+        <Button type="submit" className="w-full" disabled={pending}>
+          {pending ? "submitting... " : "Continue"}
+        </Button>
       </form>
     </Form>
   );
