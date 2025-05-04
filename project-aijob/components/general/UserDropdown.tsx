@@ -1,0 +1,44 @@
+import { ChevronDown } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+
+export function UserDropdown() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
+          <Avatar>
+            <AvatarImage src="" alt="Profile Image" />
+            <AvatarFallback>Lukas</AvatarFallback>
+          </Avatar>
+          <ChevronDown size={16} strokeWidth={2} className="ml-2 opacity-60" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-48" align="end">
+        <DropdownMenuLabel className="flex flex-col">
+          <span className="text-sm font-medium text-foreground">
+            Lukas Blomhäll
+          </span>
+          <span className="text-xs text-muted-foreground">
+            lucas.blomhall@gmail.com
+          </span>
+        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href="/favorites">
+              <Heart size={16} />
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
