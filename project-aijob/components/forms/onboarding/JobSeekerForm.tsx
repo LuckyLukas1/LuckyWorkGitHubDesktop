@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import PdfImage from "@/public/pdf.png";
 
 export function JobSeekerForm() {
   const form = useForm<z.infer<typeof jobSeekerSchema>>({
@@ -85,8 +86,8 @@ export function JobSeekerForm() {
                   {field.value ? (
                     <div className="relative w-fit">
                       <Image
-                        src={field.value}
-                        alt="Company Logo"
+                        src={PdfImage}
+                        alt="pdf resume image"
                         width={100}
                         height={100}
                         className="rounded-lg"
