@@ -26,6 +26,10 @@ export async function createCompany(data: z.infer<typeof companySchema>){
 
     const decision = await aj.protect(req);
 
+    if(decision.isDenied()){
+        throw new Error("Forbidden")
+    }
+
     const validateData = companySchema.parse(data);
 
     await prisma.user.update({
@@ -46,7 +50,15 @@ export async function createCompany(data: z.infer<typeof companySchema>){
 }
 
 export async function createJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
-    const user = await requireUser()
+    const user = await requireUser();
+
+    const req = await request();
+
+    const decision = await aj.protect(req);
+
+    if(decision.isDenied()){
+        throw new Error("Forbidden")
+    }
 
     const validateData = jobSeekerSchema.parse(data);
 
