@@ -24,7 +24,11 @@ export async function Navbar() {
           Post job
         </Link>
         {session?.user ? (
-          <UserDropdown />
+          <UserDropdown
+            email={session.user.email as string}
+            image={session.user.image as string}
+            name={session.user.name as string}
+          />
         ) : (
           <Link
             href="/login"
