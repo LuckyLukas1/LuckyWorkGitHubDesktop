@@ -14,3 +14,7 @@ export const jobSeekerSchema = z.object({
     about: z.string().min(10, "Please provide more information about yourself"),
     resume: z.string().min(1, "Please upload your resume"),
 })
+
+export const jobSchema = z.object({
+    
+})

@@ -185,6 +185,22 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.JobPostScalarFieldEnum = {
+  id: 'id',
+  jobTitle: 'jobTitle',
+  employmentType: 'employmentType',
+  location: 'location',
+  salaryFrom: 'salaryFrom',
+  salaryTo: 'salaryTo',
+  jobDescription: 'jobDescription',
+  listingDuration: 'listingDuration',
+  benefits: 'benefits',
+  status: 'status',
+  createdAt: 'createdAt',
+  updated: 'updated',
+  companyId: 'companyId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -204,13 +220,20 @@ exports.UserType = exports.$Enums.UserType = {
   JOB_SEEKER: 'JOB_SEEKER'
 };
 
+exports.JobPostStatus = exports.$Enums.JobPostStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Company: 'Company',
   JobSeeker: 'JobSeeker',
   Account: 'Account',
   Session: 'Session',
-  VerificationToken: 'VerificationToken'
+  VerificationToken: 'VerificationToken',
+  JobPost: 'JobPost'
 };
 
 /**
