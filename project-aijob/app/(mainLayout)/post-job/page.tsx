@@ -6,9 +6,64 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import ArcjetLogo from "@/public/arcjet.jpg";
+import InngestLogo from "@/public/inngest-locale.png";
+import Image from "next/image";
+
 const companies = [
-    {id: 0, name: 'ArcJet', logo: }
-]
+  { id: 0, name: "ArcJet", logo: ArcjetLogo },
+  { id: 1, name: "Inngest", logo: InngestLogo },
+  { id: 2, name: "ArcJet", logo: ArcjetLogo },
+  { id: 3, name: "Inngest", logo: InngestLogo },
+  { id: 4, name: "ArcJet", logo: ArcjetLogo },
+  { id: 5, name: "Inngest", logo: InngestLogo },
+];
+
+const testimonials = [
+  {
+    quote:
+      "We found our ideal candidate within 48 hours of posting. The quality of applicants was exceptional!",
+    author: "Sarah Chen",
+    company: "TechCorp",
+  },
+  {
+    quote:
+      "Vi hittade vår drömkandidat på rekordtid tack vare er plattform. Effektiviteten är oslagbar!",
+    author: "Adam Lindström",
+    company: "Volvo",
+  },
+  {
+    quote:
+      "Enkelt att använda och fantastisk kundsupport. Vårt nya go-to verktyg för rekrytering.",
+    author: "Elin Bergman",
+    company: "H&M",
+  },
+  {
+    quote:
+      "Sparade 70% av vår vanliga rekryteringstid med högre kvalitet på kandidaterna. Otroligt nöjda!",
+    author: "Marcus Johansson",
+    company: "Ericsson",
+  },
+  {
+    quote:
+      "Plattformen gav oss tillgång till nischade talanger vi aldrig hade hittat via traditionella metoder.",
+    author: "Sofia Andersson",
+    company: "Spotify",
+  },
+  {
+    quote:
+      "Automatiserad men personlig – perfekt kombination för vår scaling-fas. Rekommenderas varmt!",
+    author: "David Nilsson",
+    company: "Klarna",
+  },
+];
+
+const stats = [
+  { id: 0, value: "10k+", label: "Monthly active job seekers" },
+  { id: 1, value: "48h", label: "Average time time to hire" },
+  { id: 2, value: "95%", label: "Employer satisfaction rate" },
+  { id: 3, value: "500+", label: "Companies hiring remotely" },
+];
 
 export default function PostJobPage() {
   return (
@@ -29,7 +84,48 @@ export default function PostJobPage() {
               Join thousands of companies hiring top talents
             </CardDescription>
           </CardHeader>
-          <CardContent>{/* Company logos */}</CardContent>
+          <CardContent className="space-y-6">
+            {/* Company logos */}
+
+            <div className="grid grid-cols-3 gap-4">
+              {companies.map((company) => (
+                <div key={company.id}>
+                  <Image
+                    src={company.logo}
+                    alt={company.name}
+                    width={80}
+                    height={80}
+                    className="rounded-lg opacity-75 transition-opacity hover:opacity-100"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              {testimonials.map((testimonial, index) => (
+                <blockquote
+                  key={index}
+                  className="border-l-2 border-primary pl-4"
+                >
+                  <p className="text-sm text-muted-foreground italic">
+                    "{testimonial.quote}"
+                  </p>
+                  <footer className="mt-2 text-sm font-medium">
+                    - {testimonial.author}, {testimonial.company}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
+            {/* We will render stats here*/}
+            <div className="grid grid-cols-2 gap-4">
+              {stats.map((stat) => (
+                <div key={stat.id} className="rounded-lg bg-muted p-4">
+                  <h4 className="text-2xl font-bold">{stat.value}</h4>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
         </Card>
       </div>
     </div>
