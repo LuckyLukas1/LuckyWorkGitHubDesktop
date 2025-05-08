@@ -1,3 +1,4 @@
+import { CreateJobForm } from "@/components/forms/CreateJobForm";
 import {
   Card,
   CardContent,
@@ -68,11 +69,7 @@ const stats = [
 export default function PostJobPage() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
-      <Card className="col-span-1 lg:col-span-2">
-        <CardHeader>
-          <CardTitle>Hey this is the form</CardTitle>
-        </CardHeader>
-      </Card>
+      <CreateJobForm />
 
       <div className="col-span-1">
         <Card>
