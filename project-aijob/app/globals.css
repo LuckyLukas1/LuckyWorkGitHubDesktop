@@ -2,6 +2,7 @@
 @import "uploadthing/tw/v4";
 
 @source "../node_modules/@uploadthing/react/dist";
+@plugin "@tailwindcss/typography";
 
 @import "tailwindcss";
 @import "tw-animate-css";

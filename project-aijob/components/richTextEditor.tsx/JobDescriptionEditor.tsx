@@ -17,6 +17,12 @@ export function JobDescriptionEditor() {
       Typography,
     ],
     immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class:
+          "min-h-[300px] p-4 max-w-none focus:outline-none prose prose-sm sm:prose lg:prose-lg xl:prose-xl",
+      },
+    },
   });
 
   return (
