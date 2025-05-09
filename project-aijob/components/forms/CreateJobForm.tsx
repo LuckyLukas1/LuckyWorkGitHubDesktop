@@ -25,6 +25,7 @@ import {
 } from "../ui/select";
 import { countryList } from "@/app/utils/countriesList";
 import { SalaryRangeSelector } from "../general/SalaryRangeSelector";
+import { JobDescriptionEditor } from "../richTextEditor.tsx/JobDescriptionEditor";
 
 export function CreateJobForm() {
   const form = useForm<z.infer<typeof jobSchema>>({
@@ -137,22 +138,31 @@ export function CreateJobForm() {
                 )}
               />
               <FormItem>
-                <FormLabel>Salary Range</FormLabel>
+                <FormLabel>Lönespann</FormLabel>
                 <FormControl>
                   <SalaryRangeSelector
                     control={form.control}
                     minSalary={10000}
                     maxSalary={1000000}
-                    currency="USD"
+                    currency="SEK"
                     step={2000}
                   />
                 </FormControl>
-                <FormMessage>
-                  {form.formState.errors.salaryFrom?.message ||
-                    form.formState.errors.salaryTo?.message}
-                </FormMessage>
               </FormItem>
             </div>
+            <FormField
+              control={form.control}
+              name="jobDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Jobb beskrivning</FormLabel>
+                  <FormControl>
+                    <JobDescriptionEditor />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </CardContent>
         </Card>
       </form>

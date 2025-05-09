@@ -1,6 +1,7 @@
 import { Control, useController } from "react-hook-form";
 import { Slider } from "../ui/slider";
 import { useState } from "react";
+import { formatCurrency } from "@/app/utils/formatCurrency";
 
 interface iAppProps {
   control: Control<any>;
@@ -48,6 +49,14 @@ export function SalaryRangeSelector({
         step={step}
         value={range}
       />
+      <div className="flex justify-between">
+        <span className="text-sm text-muted-foreground">
+          {formatCurrency(range[0])}
+        </span>
+        <span className="text-sm text-muted-foreground">
+          {formatCurrency(range[1])}
+        </span>
+      </div>
     </div>
   );
 }
