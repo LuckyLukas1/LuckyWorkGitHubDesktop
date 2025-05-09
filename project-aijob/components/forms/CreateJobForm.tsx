@@ -139,7 +139,13 @@ export function CreateJobForm() {
               <FormItem>
                 <FormLabel>Salary Range</FormLabel>
                 <FormControl>
-                  <SalaryRangeSelector />
+                  <SalaryRangeSelector
+                    control={form.control}
+                    minSalary={10000}
+                    maxSalary={1000000}
+                    currency="USD"
+                    step={2000}
+                  />
                 </FormControl>
                 <FormMessage>
                   {form.formState.errors.salaryFrom?.message ||
