@@ -157,7 +157,7 @@ export function CreateJobForm() {
                 <FormItem>
                   <FormLabel>Jobb beskrivning</FormLabel>
                   <FormControl>
-                    <JobDescriptionEditor />
+                    <JobDescriptionEditor field={field as any} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
