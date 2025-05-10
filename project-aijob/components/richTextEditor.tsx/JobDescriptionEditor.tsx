@@ -24,7 +24,7 @@ export function JobDescriptionEditor({ field }: iAppProps) {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class:
+        class:  
           "min-h-[300px] p-4 max-w-none focus:outline-none prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert",
       },
     },
