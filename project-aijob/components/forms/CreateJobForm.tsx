@@ -33,6 +33,8 @@ import { Button } from "../ui/button";
 import { XIcon } from "lucide-react";
 import { UploadDropzone } from "../general/UploadThingReexported";
 import { JobListingDuration } from "../general/JobListingDurationSelector";
+import { createJob } from "@/app/actions";
+import { useState } from "react";
 
 interface iAppProps {
   companyLocation: string;
@@ -59,8 +61,8 @@ export function CreateJobForm({
       companyLocation: companyLocation,
       companyName: companyName,
       companyLogo: companyLogo,
-      companyWebsite: "",
-      companyXAccount: "",
+      companyWebsite: companyWebsite,
+      companyXAccount: companyXAccount || "",
       employmentType: "",
       jobDescription: "",
       jobTitle: "",
@@ -71,8 +73,19 @@ export function CreateJobForm({
     },
   });
 
+  const [pending, setPending] = useState(false);
+
   async function onSubmit(values: z.infer<typeof jobSchema>) {
-    console.log("should work");
+    try {
+      setPending(true);
+      await createJob(values);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.log("Hoppsan någonting gick fel" + error);
+      }
+    } finally {
+      setPending(false);
+    }
   }
   return (
     <Form {...form}>
@@ -390,8 +403,8 @@ export function CreateJobForm({
           </CardContent>
         </Card>
 
-        <Button type="submit" className="w-full">
-          Publicera jobb
+        <Button type="submit" className="w-full" disabled={pending}>
+          {pending ? "Skickar in" : "Skapa jobbannons"}
         </Button>
       </form>
     </Form>
