@@ -32,16 +32,33 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { XIcon } from "lucide-react";
 import { UploadDropzone } from "../general/UploadThingReexported";
+import { JobListingDuration } from "../general/JobListingDurationSelector";
 
-export function CreateJobForm() {
+interface iAppProps {
+  companyLocation: string;
+  companyName: string;
+  companyAbout: string;
+  companyLogo: string;
+  companyWebsite: string;
+  companyXAccount: string | null;
+}
+
+export function CreateJobForm({
+  companyAbout,
+  companyLocation,
+  companyName,
+  companyLogo,
+  companyWebsite,
+  companyXAccount,
+}: iAppProps) {
   const form = useForm<z.infer<typeof jobSchema>>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
       benefits: [],
-      companyAbout: "",
-      companyLocation: "",
-      companyName: "",
-      companyLogo: "",
+      companyAbout: companyAbout,
+      companyLocation: companyLocation,
+      companyName: companyName,
+      companyLogo: companyLogo,
       companyWebsite: "",
       companyXAccount: "",
       employmentType: "",
@@ -53,11 +70,18 @@ export function CreateJobForm() {
       salaryTo: 0,
     },
   });
+
+  async function onSubmit(values: z.infer<typeof jobSchema>) {
+    console.log("should work");
+  }
   return (
     <Form {...form}>
-      <form className="col-span-1 lg:col-span-2 flex flex-col gap-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="col-span-1 lg:col-span-2 flex flex-col gap-8"
+      >
         <Card>
-          <CardHeader>Job Information</CardHeader>
+          <CardHeader>Företags information</CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
@@ -65,9 +89,9 @@ export function CreateJobForm() {
                 name="jobTitle"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Job Title</FormLabel>
+                    <FormLabel>Jobb titel</FormLabel>
                     <FormControl>
-                      <Input placeholder="job title" {...field} />
+                      <Input placeholder="jobb titel" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -274,6 +298,7 @@ export function CreateJobForm() {
                         {...field}
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -292,6 +317,7 @@ export function CreateJobForm() {
                       className="min-h-[120px]"
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -355,7 +381,7 @@ export function CreateJobForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <p>Komponent inuti här</p>
+                    <JobListingDuration field={field as any} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -363,6 +389,10 @@ export function CreateJobForm() {
             />
           </CardContent>
         </Card>
+
+        <Button type="submit" className="w-full">
+          Publicera jobb
+        </Button>
       </form>
     </Form>
   );
