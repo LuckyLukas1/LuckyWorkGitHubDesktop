@@ -8437,7 +8437,7 @@ export namespace Prisma {
     createdAt?: boolean
     updated?: boolean
     companyId?: boolean
-    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    Company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["jobPost"]>
 
   export type JobPostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8454,7 +8454,7 @@ export namespace Prisma {
     createdAt?: boolean
     updated?: boolean
     companyId?: boolean
-    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    Company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["jobPost"]>
 
   export type JobPostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8471,7 +8471,7 @@ export namespace Prisma {
     createdAt?: boolean
     updated?: boolean
     companyId?: boolean
-    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    Company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["jobPost"]>
 
   export type JobPostSelectScalar = {
@@ -8492,19 +8492,19 @@ export namespace Prisma {
 
   export type JobPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "jobTitle" | "employmentType" | "location" | "salaryFrom" | "salaryTo" | "jobDescription" | "listingDuration" | "benefits" | "status" | "createdAt" | "updated" | "companyId", ExtArgs["result"]["jobPost"]>
   export type JobPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    Company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
   export type JobPostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    Company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
   export type JobPostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    Company?: boolean | CompanyDefaultArgs<ExtArgs>
   }
 
   export type $JobPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "JobPost"
     objects: {
-      company: Prisma.$CompanyPayload<ExtArgs>
+      Company: Prisma.$CompanyPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8914,7 +8914,7 @@ export namespace Prisma {
    */
   export interface Prisma__JobPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10055,7 +10055,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"JobPost"> | Date | string
     updated?: DateTimeFilter<"JobPost"> | Date | string
     companyId?: StringFilter<"JobPost"> | string
-    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    Company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }
 
   export type JobPostOrderByWithRelationInput = {
@@ -10072,7 +10072,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updated?: SortOrder
     companyId?: SortOrder
-    company?: CompanyOrderByWithRelationInput
+    Company?: CompanyOrderByWithRelationInput
   }
 
   export type JobPostWhereUniqueInput = Prisma.AtLeast<{
@@ -10092,7 +10092,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"JobPost"> | Date | string
     updated?: DateTimeFilter<"JobPost"> | Date | string
     companyId?: StringFilter<"JobPost"> | string
-    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    Company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }, "id">
 
   export type JobPostOrderByWithAggregationInput = {
@@ -10619,7 +10619,7 @@ export namespace Prisma {
     status?: $Enums.JobPostStatus
     createdAt?: Date | string
     updated?: Date | string
-    company: CompanyCreateNestedOneWithoutJobPostInput
+    Company: CompanyCreateNestedOneWithoutJobPostInput
   }
 
   export type JobPostUncheckedCreateInput = {
@@ -10651,7 +10651,7 @@ export namespace Prisma {
     status?: EnumJobPostStatusFieldUpdateOperationsInput | $Enums.JobPostStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updated?: DateTimeFieldUpdateOperationsInput | Date | string
-    company?: CompanyUpdateOneRequiredWithoutJobPostNestedInput
+    Company?: CompanyUpdateOneRequiredWithoutJobPostNestedInput
   }
 
   export type JobPostUncheckedUpdateInput = {
