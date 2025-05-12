@@ -119,7 +119,7 @@ model JobPost {
 
   createdAt DateTime @default(now())
   updated   DateTime @updatedAt
-  company   Company  @relation(fields: [companyId], references: [id])
+  Company   Company  @relation(fields: [companyId], references: [id])
   companyId String
 }
 
