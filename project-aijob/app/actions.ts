@@ -100,7 +100,11 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
         },
         select: {
             id: true,
-            stripeCustomerId: true,
+            user: {
+                select:{
+                    stripeCustomerId: true,
+                },
+            },
         },
     });
 
