@@ -7,6 +7,7 @@ import { prisma } from "./utils/db";
 import { redirect } from "next/navigation";
 import arcjet, { detectBot, shield } from "./utils/arcjet";
 import { request } from "@arcjet/next";
+import { stripe } from "./utils/stripe";
 
 const aj = arcjet.withRule(
     shield({
@@ -82,7 +83,7 @@ export async function createJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
 
 export async function createJob(data: z.infer<typeof jobSchema>) {
     const user = await requireUser(); 
-
+    
     const req = await request();
 
     const decision = await aj.protect(req);
@@ -90,20 +91,46 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     if(decision.isDenied()) {
         throw new Error("Förbjuden/Forbidden");
     }
-
+    
     const validateData = jobSchema.parse(data);
 
     const company = await prisma.company.findUnique({
         where: {
-            userId: user.id
+            userId: user.id,
         },
         select: {
-            id: true
-        }
+            id: true,
+            stripeCustomerId: true,
+        },
     });
 
+    console.log("innan company.user.stripeCustomerId")
     if(!company?.id){
         return redirect("/");
+    }
+
+    let stripeCustomerId = company.user.stripeCustomerId;
+    
+    console.log("efter company.user.stripeCustomerId")
+
+    if(!stripeCustomerId) {
+        const customer = await stripe.customers.create({
+            email: user.email as string,
+            name: user.name as string,
+        });
+
+        stripeCustomerId = customer.id;
+
+        //update user with stripe customer id
+
+        await prisma.user.update({
+            where: {
+                id: user.id,
+            },
+            data: {
+                stripeCustomerId: customer.id,
+            },
+        });
     }
 
     await prisma.jobPost.create({
