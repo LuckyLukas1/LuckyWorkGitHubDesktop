@@ -82,7 +82,7 @@ export async function createJobSeeker(data: z.infer<typeof jobSeekerSchema>) {
 }
 
 export async function createJob(data: z.infer<typeof jobSchema>) {
-    const user = await requireUser(); 
+    const user = await requireUser();
     
     const req = await request();
 
@@ -96,46 +96,48 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
 
     const company = await prisma.company.findUnique({
         where: {
-            userId: user.id,
+        userId: user.id,
         },
         select: {
             id: true,
             user: {
-                select:{
-                    stripeCustomerId: true,
+                select: {
+                    stripeCustomerId: true
+
                 },
             },
         },
     });
 
     console.log("innan company.user.stripeCustomerId")
+
     if(!company?.id){
         return redirect("/");
     }
 
-    let stripeCustomerId = company.user.stripeCustomerId;
+    let stripeCustomerId = company.user?.stripeCustomerId;
     
     console.log("efter company.user.stripeCustomerId")
 
-    if(!stripeCustomerId) {
-        const customer = await stripe.customers.create({
-            email: user.email as string,
-            name: user.name as string,
-        });
+    // if(!stripeCustomerId) {
+    //     const customer = await stripe.customers.create({
+    //         email: user.email as string,
+    //         name: user.name as string,
+    //     });
 
-        stripeCustomerId = customer.id;
+        // stripeCustomerId = customer.id;
 
         //update user with stripe customer id
 
-        await prisma.user.update({
-            where: {
-                id: user.id,
-            },
-            data: {
-                stripeCustomerId: customer.id,
-            },
-        });
-    }
+        // await prisma.user.update({
+        //     where: {
+        //         id: user.id,
+        //     },
+        //     data: {
+        //         stripeCustomerId: customer.id,
+        //     },
+        // });
+    // }
 
     await prisma.jobPost.create({
         data: {
