@@ -16,7 +16,7 @@ export const handleJobExpiration = inngest.createFunction(
     async ({event, step}) => {
         const {jobId, expirationDays} = event.data;
 
-        await step.sleep('wait-for-expiration', `${expirationDays}d`)
+        await step.sleep('wait-for-expiration', `${expirationDays}d`);
 
         await step.run('updatejob-status', async () => {
             await prisma.jobPost.update({
