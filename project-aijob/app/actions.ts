@@ -159,7 +159,7 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     );
 
     if(!pricingTier) {
-        throw new Error("Ogiltig listnings varaktighet vald/Invalid listing duration selected")
+        throw new Error("Ogiltig listnings varaktighet vald")
     }
 
     await inngest.send({

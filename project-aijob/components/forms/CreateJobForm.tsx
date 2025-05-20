@@ -1,5 +1,7 @@
 "use client";
 
+import { countryList } from "@/app/utils/countriesList";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -12,7 +14,6 @@ import {
 import { jobSchema } from "@/app/utils/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -23,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { countryList } from "@/app/utils/countriesList";
 import { SalaryRangeSelector } from "../general/SalaryRangeSelector";
 import { JobDescriptionEditor } from "../richTextEditor.tsx/JobDescriptionEditor";
 import { BenefitsSelector } from "../general/BenefitsSelector";
@@ -164,7 +164,7 @@ export function CreateJobForm({
                           <SelectLabel>Worldwide</SelectLabel>
                           <SelectItem value="worldwide">
                             <span>🌍</span>
-                            <span className="pl-2">Worldwide / Remote</span>
+                            <span className="pl-2">Worldwide / Distans</span>
                           </SelectItem>
                         </SelectGroup>
                         <SelectGroup>
