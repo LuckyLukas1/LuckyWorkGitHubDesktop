@@ -128,10 +128,10 @@ export function CreateJobForm({
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Anställningstyp</SelectLabel>
-                          <SelectItem value="full-time">Heltid</SelectItem>
-                          <SelectItem value="part-time">Deltid</SelectItem>
-                          <SelectItem value="contract">Kontrakt</SelectItem>
-                          <SelectItem value="internship">
+                          <SelectItem value="heltid">Heltid</SelectItem>
+                          <SelectItem value="deltid">Deltid</SelectItem>
+                          <SelectItem value="kontrakt">Kontrakt</SelectItem>
+                          <SelectItem value="praktikplats">
                             Praktikplats
                           </SelectItem>
                         </SelectGroup>
