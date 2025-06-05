@@ -161,14 +161,14 @@ export function CreateJobForm({
                       </FormControl>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Worldwide</SelectLabel>
+                          <SelectLabel>Världen runt</SelectLabel>
                           <SelectItem value="worldwide">
                             <span>🌍</span>
-                            <span className="pl-2">Worldwide / Distans</span>
+                            <span className="pl-2">Världen runt / Distans</span>
                           </SelectItem>
                         </SelectGroup>
                         <SelectGroup>
-                          <SelectLabel>Location</SelectLabel>
+                          <SelectLabel>Plats</SelectLabel>
                           {countryList.map((country) => (
                             <SelectItem value={country.name} key={country.code}>
                               <span>{country.flagEmoji}</span>
