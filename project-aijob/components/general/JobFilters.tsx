@@ -19,7 +19,7 @@ const jobTypes = ["heltid", "deltid", "kontrakt", "praktikplats"];
 
 export function JobFilter() {
   return (
-    <Card className="col-span-1">
+    <Card className="col-span-1 h-fit">
       <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle className="text-2xl font-semibold">Filter</CardTitle>
         <Button variant="destructive" size="sm" className="h-8">

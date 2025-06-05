@@ -32,3 +32,19 @@ export const handleJobExpiration = inngest.createFunction(
         return {jobId, message: "Job marked as expired"};
     } 
 );
+
+export const sendPeriodicJobListings = inngest.createFunction(
+    {id: "send-job-listings"},
+    {event: "jobseeker/created"},
+    async ({event, step}) => {
+        const {userId, email} = event.data;
+
+        const totalDays = 30;
+        const intervalDays = 7;
+        let currentDay = 0;
+
+        while(currentDay < totalDays){
+            await step.sleep("wait-interval", `${intervalDays}d`)
+        }
+    }
+)
