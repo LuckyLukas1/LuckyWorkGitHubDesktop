@@ -25,6 +25,8 @@ model User {
   Company   Company?
   JobSeeker JobSeeker?
 
+  SavedJobPost SavedJobPost[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -119,10 +121,26 @@ model JobPost {
   updated   DateTime @updatedAt
   Company   Company  @relation(fields: [companyId], references: [id])
   companyId String
+
+  SavedJobPost SavedJobPost[]
 }
 
 enum JobPostStatus {
   DRAFT
   ACTIVE
   EXPIRED
+}
+
+model SavedJobPost {
+  id String @id @default(uuid())
+
+  JobPost   JobPost @relation(fields: [jobPostId], references: [id])
+  jobPostId String
+  User      User    @relation(fields: [userId], references: [id])
+  userId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, jobPostId])
 }
