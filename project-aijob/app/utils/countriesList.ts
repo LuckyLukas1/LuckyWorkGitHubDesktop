@@ -1,13 +1,11 @@
-export function getFlagEmoji(location: string): string {
-    const cleanLocation = location.trim().toLowerCase();
-  
-    const country = countryList.find((country) =>
-      cleanLocation.includes(country.name.toLowerCase())
-    );
-  
-    return country?.flagEmoji || "";
-  }
-  
+export function getFlagEmoji(location: string){
+  const cleanLocation = location.trim().toLowerCase();
+
+  const country = countryList.find((country) => cleanLocation.includes(country.name.toLocaleLowerCase()));
+
+  return country?.flagEmoji || "";
+}
+
   export const countryList = [
     {
       name: "Afghanistan",

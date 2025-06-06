@@ -85,12 +85,22 @@ export const sendPeriodicJobListings = inngest.createFunction(
 
                     await resend.emails.send({
                         from: 'LuckyWork <onboarding@resend.dev>',
-                        to: ['lukas.blom02@gmail.com'],
-                        subject: "Nya jobb för dig",
-                        html: ``
+                        to: ["lukas.blom02@gmail.com"],
+                        subject: "LuckyWork hittade nya jobb för dig",
+                        html: `
+                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                            <h2>Senaste jobbmöjligheter</h2>
+                            ${jobListingsHtml}
+                            <div style="margin-top: 30px; text-align: center;">
+                                <a href="${process.env.NEXT_PUBLIC_URL}"
+                                style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Visa fler jobb</a>
+                            </div>
+                        </div>
+                        `
                     });
                 });
             }
         }
+        return {userId, message: 'Slutförda 30 dagars meddelanden'}
     }
 )
