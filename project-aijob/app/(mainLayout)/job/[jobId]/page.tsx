@@ -1,11 +1,31 @@
+import arcjet, { detectBot, fixedWindow } from "@/app/utils/arcjet";
 import { getFlagEmoji } from "@/app/utils/countriesList";
 import { prisma } from "@/app/utils/db";
 import { benefits } from "@/app/utils/listOfBenefits";
 import { JsonToHtml } from "@/components/general/JsonToHtml";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { request } from "@arcjet/next";
 import { Heart } from "lucide-react";
+import Image from "next/image";
 import { notFound } from "next/navigation";
+
+const aj = arcjet
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: ["CATEGORY:SEARCH_ENGINE", "CATEGORY:PREVIEW"],
+    })
+  )
+  .withRule(
+    fixedWindow({
+      mode: "LIVE",
+      max: 10,
+      window: "60s",
+    })
+  );
 
 async function getJob(jobId: string) {
   const jobData = await prisma.jobPost.findUnique({
@@ -20,6 +40,7 @@ async function getJob(jobId: string) {
       employmentType: true,
       benefits: true,
       createdAt: true,
+      listingDuration: true,
       Company: {
         select: {
           name: true,
@@ -42,12 +63,20 @@ type Params = Promise<{ jobId: string }>;
 
 export default async function JobIdPage({ params }: { params: Params }) {
   const { jobId } = await params;
+
+  const req = await request();
+  const decision = await aj.protect(req);
+
+  if (decision.isDenied()) {
+    throw new Error("forbidden");
+  }
+
   const data = await getJob(jobId);
 
   const locationFlag = getFlagEmoji(data.location);
   return (
-    <div className="grid lg:grid-cols-[1fr, 400px] gap-8">
-      <div className="space-y-8">
+    <div className="grid lg:grid-cols-3 gap-8">
+      <div className="space-y-8 col-span-2">
         {/* header */}
         <div className="flex items-center justify-between">
           <div>
@@ -76,13 +105,120 @@ export default async function JobIdPage({ params }: { params: Params }) {
         </section>
 
         <section>
-          <h3 className="font-semibold mb-4">Fördelar</h3>
+          <h3 className="font-semibold mb-4">
+            Förmåner{" "}
+            <span className="text-sm text-muted-foreground font-normal">
+              (blå markerade erbjuds)
+            </span>
+          </h3>
           <div className="flex flex-wrap gap-3">
             {benefits.map((benefit) => {
-              return <Badge key={benefit.id}>{benefit.label}</Badge>;
+              const isOffered = data.benefits.includes(benefit.id);
+
+              return (
+                <Badge
+                  className={cn(
+                    isOffered ? "" : "opacity-75 cursor-not-allowed",
+                    "text-sm px-4 py-1.5 rounded-full"
+                  )}
+                  key={benefit.id}
+                  variant={isOffered ? "default" : "outline"}
+                >
+                  <span className="flex items-center gap-2">
+                    {benefit.icon}
+                    {benefit.label}
+                  </span>
+                </Badge>
+              );
             })}
           </div>
         </section>
+      </div>
+
+      <div className="space-y-6">
+        <Card className="p-6">
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold">Ansök till jobbet</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Vänligen meddela {data.Company.name} att du hittade det här
+                jobbet via LuckyWork. Detta hjälper oss att växa!🍀
+              </p>
+            </div>
+
+            <Button className="w-full">Ansök till jobbet</Button>
+          </div>
+        </Card>
+        {/* Job details card */}
+
+        <Card className="p-6">
+          <h3 className="font-semibold">Om jobbet</h3>
+
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Ansök innan</span>
+              <span className="text-sm">
+                {new Date(
+                  data.createdAt.getTime() +
+                    data.listingDuration * 24 * 60 * 60 * 1000
+                ).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">
+                Publicerat den
+              </span>
+              <span className="text-sm">
+                {data.createdAt.toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">
+                Anställningstyp
+              </span>
+              <span className="text-sm">{data.employmentType}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Plats</span>
+              <span className="text-sm">
+                {locationFlag && <span className="mr-1">{locationFlag}</span>}
+                {data.location}
+              </span>
+            </div>
+          </div>
+        </Card>
+
+        {/* Company Card */}
+        <Card className="p-6">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <Image
+                src={data.Company.logo}
+                alt={"Company logo"}
+                width={48}
+                height={48}
+                className="rounded-full size-12"
+              />
+
+              <div className="flex flex-col">
+                <h3 className="font-semibold">{data.Company.name}</h3>
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {data.Company.about}
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   );
