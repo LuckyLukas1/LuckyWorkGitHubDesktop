@@ -280,3 +280,7 @@ export async function editJobPost(data: z.infer<typeof jobSchema>, jobId: string
 
     return redirect("/my-jobs");
 }
+
+export async function deleteJobPost(){
+    
+}

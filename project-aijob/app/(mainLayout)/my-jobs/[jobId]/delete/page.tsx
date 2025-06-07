@@ -1,0 +1,44 @@
+import { GeneralSubmitButton } from "@/components/general/SubmitButtons";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowLeft, TrashIcon } from "lucide-react";
+import Link from "next/link";
+
+export default function DeleteJob() {
+  return (
+    <div>
+      <Card className="max-w-lg mx-auto mt-28">
+        <CardHeader>
+          <CardTitle>Är du helt säker på att du vill radera jobbet?</CardTitle>
+          <CardDescription>
+            Den här åtgärden kan inte ångras. Detta kommer att permanent radera
+            din jobbannons och ta bort all din data från våra servrar.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="flex items-center justify-between">
+          <Link
+            href="/my-jobs"
+            className={buttonVariants({ variant: "secondary" })}
+          >
+            <ArrowLeft />
+            Avbryt
+          </Link>
+
+          <form>
+            <GeneralSubmitButton
+              text="Radera jobbet"
+              variant="destructive"
+              icon={<TrashIcon />}
+            />
+          </form>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
