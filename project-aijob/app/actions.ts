@@ -11,6 +11,7 @@ import { stripe } from "./utils/stripe";
 import { jobListingDurationPricing } from "./utils/jobListingDurationPricing";
 import { inngest } from "./utils/inngest/client";
 import { revalidatePath } from "next/cache";
+import { benefits } from "./utils/listOfBenefits";
 
 const aj = arcjet.withRule(
     shield({
@@ -244,3 +245,38 @@ export async function unSaveJobPost(savedJobPostId: string) {
     revalidatePath(`/job/${data.jobPostId}`)
 }
 
+
+export async function editJobPost(data: z.infer<typeof jobSchema>, jobId: string) {
+    const user = await requireUser();
+
+    const req = await request();
+
+    const decision = await aj.protect(req);
+
+    if(decision.isDenied()){
+        throw new Error("Forbidden");
+    }
+
+    const validateData = jobSchema.parse(data)
+
+    await prisma.jobPost.update({
+        where: {
+            id: jobId,
+            Company: {
+                userId: user.id,
+            },
+        },
+        data: {
+            jobDescription: validateData.jobDescription,
+            jobTitle: validateData.jobTitle,
+            employmentType: validateData.employmentType,
+            location: validateData.location,
+            salaryFrom: validateData.salaryFrom,
+            salaryTo: validateData.salaryTo,
+            listingDuration: validateData.listingDuration,
+            benefits: validateData.benefits,
+        },
+    });
+
+    return redirect("/my-jobs");
+}
