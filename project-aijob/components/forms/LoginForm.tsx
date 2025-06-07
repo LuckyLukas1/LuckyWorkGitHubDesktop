@@ -63,7 +63,6 @@ export async function LoginForm() {
   const session = await auth();
 
   if (session?.user) {
-    console.log("körde kommando");
     return redirect("/"); //Redirects logged in users to home page
   }
 
