@@ -28,6 +28,7 @@ export function JobFilter() {
   //Get current filters from the url
 
   const currentJobTypes = searchParams.get("jobTypes")?.split(",") || [];
+  const currentLocation = searchParams.get("location") || "";
 
   function clearAllFilter() {
     router.push("/");
@@ -60,6 +61,10 @@ export function JobFilter() {
     const newValue = Array.from(current).join(",");
 
     router.push(`?${createQueryString("jobTypes", newValue)}`);
+  }
+
+  function handleLocationChange(location: string) {
+    router.push(`?${createQueryString("location", location)}`);
   }
 
   return (
@@ -104,7 +109,12 @@ export function JobFilter() {
 
         <div className="space-y-2">
           <Label className="text-lg font-semibold">Plats</Label>
-          <Select>
+          <Select
+            onValueChange={(location) => {
+              handleLocationChange(location);
+            }}
+            value={currentLocation}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Välj plats" />
             </SelectTrigger>
@@ -112,10 +122,10 @@ export function JobFilter() {
               <SelectGroup>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Världen runt</SelectLabel>
-                    <SelectItem value="worldwide">
+                    <SelectLabel>Worldwide</SelectLabel>
+                    <SelectItem value="Worldwide">
                       <span>🌍</span>
-                      <span className="pl-2">Världen runt / Distans</span>
+                      <span className="pl-2">Worldwide / Distans</span>
                     </SelectItem>
                   </SelectGroup>
                   <SelectGroup>
