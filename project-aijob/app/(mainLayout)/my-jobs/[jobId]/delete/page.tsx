@@ -1,3 +1,5 @@
+import { deleteJobPost } from "@/app/actions";
+import { requireUser } from "@/app/utils/requireUser";
 import { GeneralSubmitButton } from "@/components/general/SubmitButtons";
 import { buttonVariants } from "@/components/ui/button";
 import {
@@ -10,7 +12,11 @@ import {
 import { ArrowLeft, TrashIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function DeleteJob() {
+type Params = Promise<{ jobId: string }>;
+
+export default async function DeleteJob({ params }: { params: Params }) {
+  const { jobId } = await params;
+  await requireUser();
   return (
     <div>
       <Card className="max-w-lg mx-auto mt-28">
@@ -30,7 +36,13 @@ export default function DeleteJob() {
             Avbryt
           </Link>
 
-          <form>
+          <form
+            action={async () => {
+              "use server";
+
+              await deleteJobPost(jobId);
+            }}
+          >
             <GeneralSubmitButton
               text="Radera jobbet"
               variant="destructive"

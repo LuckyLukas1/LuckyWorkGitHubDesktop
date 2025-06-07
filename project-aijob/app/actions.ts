@@ -11,7 +11,6 @@ import { stripe } from "./utils/stripe";
 import { jobListingDurationPricing } from "./utils/jobListingDurationPricing";
 import { inngest } from "./utils/inngest/client";
 import { revalidatePath } from "next/cache";
-import { benefits } from "./utils/listOfBenefits";
 
 const aj = arcjet.withRule(
     shield({
@@ -93,7 +92,7 @@ export async function createJob(data: z.infer<typeof jobSchema>) {
     const decision = await aj.protect(req);
 
     if(decision.isDenied()) {
-        throw new Error("Förbjuden/Forbidden");
+        throw new Error("Forbidden");
     }
     
     const validateData = jobSchema.parse(data);
@@ -210,7 +209,7 @@ export async function saveJobPost(jobId: string) {
     const decision = await aj.protect(req)
 
     if(decision.isDenied()){
-        throw new Error('Förbjuden')
+        throw new Error("Forbidden")
     }
 
     await prisma.savedJobPost.create({
@@ -230,7 +229,7 @@ export async function unSaveJobPost(savedJobPostId: string) {
     const decision = await aj.protect(req)
 
     if(decision.isDenied()){
-        throw new Error('Förbjuden')
+        throw new Error("Forbidden")
     }
 
     const data = await prisma.savedJobPost.delete({
@@ -281,6 +280,30 @@ export async function editJobPost(data: z.infer<typeof jobSchema>, jobId: string
     return redirect("/my-jobs");
 }
 
-export async function deleteJobPost(){
-    
+export async function deleteJobPost(jobId: string){
+    const session = await requireUser()
+
+    const req = await request()
+
+    const decision = await aj.protect(req);
+
+    if(decision.isDenied()){
+        throw new Error("Forbidden");
+    }
+
+    await prisma.jobPost.delete({
+        where: {
+            id: jobId,
+            Company: {
+                userId: session.id,
+            },
+        }
+    });
+
+    await inngest.send({
+        name: "job/cancel.expiration",
+        data: {jobId: jobId},
+    });
+
+    return redirect("/my-jobs");
 }
