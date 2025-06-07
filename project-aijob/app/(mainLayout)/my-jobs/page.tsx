@@ -26,12 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  CopyCheckIcon,
-  MoreHorizontal,
-  PenBoxIcon,
-  XCircle,
-} from "lucide-react";
+import { MoreHorizontal, PenBoxIcon, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -84,12 +79,12 @@ export default async function MyJobsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Logo</TableHead>
-                  <TableHead>Company</TableHead>
-                  <TableHead>Job Title</TableHead>
+                  <TableHead>Logotyp</TableHead>
+                  <TableHead>Företag</TableHead>
+                  <TableHead>Jobbtitel</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Created at</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>Skapad den</TableHead>
+                  <TableHead className="text-right">Åtgärder</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
