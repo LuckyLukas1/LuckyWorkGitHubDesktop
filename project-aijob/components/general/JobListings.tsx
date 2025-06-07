@@ -1,6 +1,7 @@
 import { prisma } from "@/app/utils/db";
 import { EmptyState } from "./EmptyState";
 import { JobCard } from "./JobCard";
+import { MainPagination } from "./MainPagination";
 
 async function getData() {
   await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -51,6 +52,10 @@ export async function JobListings() {
           href="/"
         />
       )}
+
+      <div className="flex justify-center mt-6">
+        <MainPagination />
+      </div>
     </>
   );
 }
