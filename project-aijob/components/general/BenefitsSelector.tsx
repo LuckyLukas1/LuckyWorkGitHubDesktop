@@ -1,12 +1,13 @@
 import { benefits } from "@/app/utils/listOfBenefits";
 import { Badge } from "../ui/badge";
 import { ControllerRenderProps } from "react-hook-form";
+import { JobFormValues } from "../forms/CreateJobForm";
 
-interface iAppProps {
-  field: ControllerRenderProps;
+interface BenefitsSelectorProps {
+  field: ControllerRenderProps<JobFormValues, "benefits">;
 }
 
-export function BenefitsSelector({ field }: iAppProps) {
+export function BenefitsSelector({ field }: BenefitsSelectorProps) {
   function toggleBenefit(benefitId: string) {
     const currentBenefits = field.value || [];
 

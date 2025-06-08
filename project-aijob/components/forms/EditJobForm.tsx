@@ -28,12 +28,13 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { XIcon } from "lucide-react";
 import { UploadDropzone } from "../general/UploadThingReexported";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 import { jobSchema } from "@/app/utils/zodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { editJobPost } from "@/app/actions";
+import { JobFormValues } from "./CreateJobForm";
 
 interface iAppProps {
   jobPost: {
@@ -194,7 +195,6 @@ export function EditJobForm({ jobPost }: iAppProps) {
                     control={form.control}
                     minSalary={10000}
                     maxSalary={1000000}
-                    currency="SEK"
                     step={2000}
                   />
                 </FormControl>
@@ -207,7 +207,14 @@ export function EditJobForm({ jobPost }: iAppProps) {
                 <FormItem>
                   <FormLabel>Jobb beskrivning</FormLabel>
                   <FormControl>
-                    <JobDescriptionEditor field={field as any} />
+                    <JobDescriptionEditor
+                      field={
+                        field as ControllerRenderProps<
+                          JobFormValues,
+                          "jobDescription"
+                        >
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -220,7 +227,14 @@ export function EditJobForm({ jobPost }: iAppProps) {
                 <FormItem>
                   <FormLabel>Förmåner</FormLabel>
                   <FormControl>
-                    <BenefitsSelector field={field as any} />
+                    <BenefitsSelector
+                      field={
+                        field as ControllerRenderProps<
+                          JobFormValues,
+                          "benefits"
+                        >
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

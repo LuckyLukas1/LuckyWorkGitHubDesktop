@@ -2,7 +2,7 @@
 
 import { countryList } from "@/app/utils/countriesList";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { useForm } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -35,6 +35,8 @@ import { UploadDropzone } from "../general/UploadThingReexported";
 import { JobListingDuration } from "../general/JobListingDurationSelector";
 import { createJob } from "@/app/actions";
 import { useState } from "react";
+
+export type JobFormValues = z.infer<typeof jobSchema>;
 
 interface iAppProps {
   companyLocation: string;
@@ -189,7 +191,6 @@ export function CreateJobForm({
                     control={form.control}
                     minSalary={10000}
                     maxSalary={1000000}
-                    currency="SEK"
                     step={2000}
                   />
                 </FormControl>
@@ -202,7 +203,14 @@ export function CreateJobForm({
                 <FormItem>
                   <FormLabel>Jobb beskrivning</FormLabel>
                   <FormControl>
-                    <JobDescriptionEditor field={field as any} />
+                    <JobDescriptionEditor
+                      field={
+                        field as ControllerRenderProps<
+                          JobFormValues,
+                          "jobDescription"
+                        >
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -215,7 +223,14 @@ export function CreateJobForm({
                 <FormItem>
                   <FormLabel>Förmåner</FormLabel>
                   <FormControl>
-                    <BenefitsSelector field={field as any} />
+                    <BenefitsSelector
+                      field={
+                        field as ControllerRenderProps<
+                          JobFormValues,
+                          "benefits"
+                        >
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -394,7 +409,14 @@ export function CreateJobForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <JobListingDuration field={field as any} />
+                    <JobListingDuration
+                      field={
+                        field as ControllerRenderProps<
+                          JobFormValues,
+                          "listingDuration"
+                        >
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

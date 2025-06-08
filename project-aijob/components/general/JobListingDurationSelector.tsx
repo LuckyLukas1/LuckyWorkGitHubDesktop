@@ -4,12 +4,13 @@ import { jobListingDurationPricing } from "@/app/utils/jobListingDurationPricing
 import { Label } from "../ui/label";
 import { Card } from "../ui/card";
 import { cn } from "@/lib/utils";
+import { JobFormValues } from "../forms/CreateJobForm";
 
-interface iAppProps {
-  field: ControllerRenderProps;
+interface JobListingDurationProps {
+  field: ControllerRenderProps<JobFormValues, "listingDuration">;
 }
 
-export function JobListingDuration({ field }: iAppProps) {
+export function JobListingDuration({ field }: JobListingDurationProps) {
   return (
     <RadioGroup
       value={field.value?.toString()}

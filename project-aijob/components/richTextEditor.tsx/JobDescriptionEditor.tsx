@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -7,12 +6,16 @@ import { MenuBar } from "./MenuBar";
 import TextAlign from "@tiptap/extension-text-align";
 import Typography from "@tiptap/extension-typography";
 import { ControllerRenderProps } from "react-hook-form";
+import { JobFormValues } from "../forms/CreateJobForm"; // eller importera rätt typ
 
-interface iAppProps {
-  field: ControllerRenderProps;
+// gamla värdet ändra tillbaka om det krachar i slutet på export function JobDescriptionEditor({ field }: JobDescriptionEditorProps) {
+// till export function JobDescriptionEditor({ field }: iAppProps) {
+
+interface JobDescriptionEditorProps {
+  field: ControllerRenderProps<JobFormValues, "jobDescription">;
 }
 
-export function JobDescriptionEditor({ field }: iAppProps) {
+export function JobDescriptionEditor({ field }: JobDescriptionEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -24,7 +27,7 @@ export function JobDescriptionEditor({ field }: iAppProps) {
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class:  
+        class:
           "min-h-[300px] p-4 max-w-none focus:outline-none prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert",
       },
     },
